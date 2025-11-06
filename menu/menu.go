@@ -16,7 +16,7 @@ func Menu() {
 		keyboardInput = strings.TrimRight(keyboardInput, "\n")
 
 		if keyboardInput[:2] == constants.KeyboardInputAdd {
-			utils.GetTaskValueFromInput(keyboardInput)
+			utils.CreateTask(utils.GetTaskValueFromInput(keyboardInput))
 		}
 
 		if keyboardInput == constants.KeyboardInputPrintAll {
@@ -25,6 +25,10 @@ func Menu() {
 
 		if keyboardInput[:2] == constants.KeyboardInputChange {
 			utils.ChangeTask(utils.GetTaskValueFromInput(keyboardInput))
+		}
+
+		if keyboardInput[:2] == constants.KeyboardInputDelete {
+			utils.DeleteTask(utils.GetTaskValueFromInput(keyboardInput))
 		}
 
 		if keyboardInput == constants.KeyboardInputQuit {
