@@ -48,9 +48,9 @@ func PrintTasks() {
 		var printValue string
 
 		if !value {
-			printValue = "[O]"
+			printValue = "❌"
 		} else {
-			printValue = "[X]"
+			printValue = "✅"
 		}
 
 		fmt.Printf("%s %s\n", printValue, key)
