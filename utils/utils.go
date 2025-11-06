@@ -1,20 +1,29 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"to-do-golang/global"
 )
 
-func ParseTaskValueFromInput(input string) string {
+func ParseTaskValueFromInput(input string) (string, error) {
 	re := regexp.MustCompile(`"([^"]*)"`)
 	matches := re.FindAllStringSubmatch(input, -1)
+	if len(matches) < 1 {
+		return "", errors.New("error: incorrect input")
+	}
 
-	return matches[0][1]
+	return matches[0][1], nil
 }
 
-func CreateTask(taskKey string) {
-	// TODO add err
+func CreateTask(input string) {
+	taskKey := input
+
+	if taskKey == "" {
+		return
+	}
+
 	if _, exists := global.Tasks[taskKey]; exists {
 		fmt.Println("key already exists")
 	} else {
@@ -25,9 +34,13 @@ func CreateTask(taskKey string) {
 }
 
 func GetTaskValueFromInput(input string) string {
-	matches := ParseTaskValueFromInput(input)
+	matches, err := ParseTaskValueFromInput(input)
 
-	return matches
+	if err == nil {
+		return matches
+	} else {
+		return ""
+	}
 }
 
 func PrintTasks() {
@@ -47,12 +60,15 @@ func PrintTasks() {
 func ChangeTask(input string) {
 	taskKey := input
 
+	if taskKey == "" {
+		return
+	}
+
 	if _, exists := global.Tasks[taskKey]; exists {
 		global.Tasks[taskKey] = !global.Tasks[taskKey]
 
 		PrintTasks()
 	} else {
-		// TODO add err
 		fmt.Println("no key")
 	}
 }
@@ -60,11 +76,13 @@ func ChangeTask(input string) {
 func DeleteTask(input string) {
 	taskKey := input
 
+	if taskKey == "" {
+		return
+	}
+
 	if _, exists := global.Tasks[taskKey]; exists {
-		// TODO add err
 		delete(global.Tasks, taskKey)
 	} else {
-		// TODO add err
 		fmt.Println("no key")
 	}
 
