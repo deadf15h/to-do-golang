@@ -33,6 +33,12 @@ go build main.go
 ./main
 ```
 
+For running test
+
+```bash
+go test -v
+```
+
 ## Usage
 
 For add task run:
