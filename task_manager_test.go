@@ -13,7 +13,7 @@ func TestParseTaskValueFromInput(t *testing.T) {
 	}{
 		{
 			name:     "normal input",
-			input:    `a: "simple task"`,
+			input:    `:a "simple task"`,
 			expected: "simple task",
 		},
 		{
@@ -46,6 +46,31 @@ func TestParseTaskValueFromInput(t *testing.T) {
 				t.Errorf("ParseTaskValueFromInput(%q) = %q, expected %q\n",
 					tt.input, result, tt.expected)
 			}
+		})
+	}
+}
+
+func TestCreateTask(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "input key",
+			input:    `:a "simple task"`,
+			expected: "simple task",
+		},
+		{
+			name:     "if key already exists",
+			input:    `:a "simple task"`,
+			expected: "key already exists",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			utils.CreateTask(tt.input)
 		})
 	}
 }
