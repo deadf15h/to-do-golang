@@ -74,3 +74,38 @@ func TestCreateTask(t *testing.T) {
 		})
 	}
 }
+
+func TestChangeTask(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "input key",
+			input:    `:a "simple task"`,
+			expected: "simple task",
+		},
+		{
+			name:     "change status to true",
+			input:    `:c "simple task"`,
+			expected: "✅ simple task",
+		},
+		{
+			name:     "change status to false",
+			input:    `:c "simple task"`,
+			expected: "❌ simple task",
+		},
+		{
+			name:     "change status to non-exist key",
+			input:    `:c "111"`,
+			expected: "no key",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			utils.ChangeTask(tt.input)
+		})
+	}
+}
