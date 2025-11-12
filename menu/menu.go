@@ -23,6 +23,14 @@ func Menu() {
 			utils.PrintTasks()
 		}
 
+		if keyboardInput == constants.KeyboardInputSave {
+			utils.SaveToJson()
+		}
+
+		if keyboardInput == constants.KeyboardInputLoad {
+			utils.LoadFromJson()
+		}
+
 		if keyboardInput[:2] == constants.KeyboardInputChange {
 			utils.ChangeTask(utils.GetTaskValueFromInput(keyboardInput))
 		}
