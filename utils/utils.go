@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"to-do-golang/constants"
 	"to-do-golang/global"
 )
 
@@ -14,7 +15,7 @@ func ParseTaskValueFromInput(input string) (string, error) {
 	re := regexp.MustCompile(`"([^"]*)"`)
 	matches := re.FindAllStringSubmatch(input, -1)
 	if len(matches) < 1 {
-		return "", errors.New("error: incorrect input")
+		return "", errors.New(constants.ErrorIncorrectInputMsg)
 	}
 
 	return matches[0][1], nil
@@ -28,7 +29,7 @@ func CreateTask(input string) {
 	}
 
 	if _, exists := global.Tasks[taskKey]; exists {
-		fmt.Println("key already exists")
+		fmt.Println(constants.KeyAlreadyExistsMsg)
 	} else {
 		global.Tasks[taskKey] = false
 	}
@@ -51,9 +52,9 @@ func PrintTasks() {
 		var printValue string
 
 		if !value {
-			printValue = "❌"
+			printValue = constants.PrintValueFalse
 		} else {
-			printValue = "✅"
+			printValue = constants.PrintValueTrue
 		}
 
 		fmt.Printf("%s %s\n", printValue, key)
@@ -72,7 +73,7 @@ func ChangeTask(input string) {
 
 		PrintTasks()
 	} else {
-		fmt.Println("no key")
+		fmt.Println(constants.NoKeyMsg)
 	}
 }
 
@@ -86,7 +87,7 @@ func DeleteTask(input string) {
 	if _, exists := global.Tasks[taskKey]; exists {
 		delete(global.Tasks, taskKey)
 	} else {
-		fmt.Println("no key")
+		fmt.Println(constants.NoKeyMsg)
 	}
 
 	PrintTasks()
@@ -110,7 +111,7 @@ func LoadFromJson() {
 	data, err := os.ReadFile("data.json")
 
 	if err != nil {
-		log.Fatal("Error reading file", err)
+		log.Fatal(constants.ErrorReadingFileMsg, err)
 	}
 
 	var res map[string]bool
@@ -118,11 +119,11 @@ func LoadFromJson() {
 	err = json.Unmarshal(data, &res)
 
 	if err != nil {
-		log.Fatal("Parse JSON error", err)
+		log.Fatal(constants.ErrorParseFileMsg, err)
 	}
 
 	if err == nil {
-		fmt.Println("\nLoading from JSON success!\n")
+		fmt.Println(constants.LoadingFromFileSuccessMsg)
 	}
 
 	global.Tasks = res
